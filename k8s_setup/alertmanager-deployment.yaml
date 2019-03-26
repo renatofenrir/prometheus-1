@@ -1,6 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
+  namespace: prometheus
   annotations:
     kompose.cmd: kompose convert
     kompose.version: 1.17.0 (a74acad)
@@ -29,10 +30,15 @@ spec:
         resources: {}
         volumeMounts:
         - mountPath: /etc/alertmanager/
-          name: alertmanager-claim0
+          name: alertmanager-config
       restartPolicy: Always
       volumes:
-      - name: alertmanager-claim0
-        persistentVolumeClaim:
-          claimName: alertmanager-claim0
+
+      #- name: alertmanager-claim0
+      #  persistentVolumeClaim:
+      #    claimName: alertmanager-claim0
+      
+      - name: alertmanager-config
+        configMap:
+          name: alert-config
 status: {}
