@@ -1,20 +1,37 @@
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  namespace: prometheus
+#  annotations:
+#    kompose.cmd: kompose convert
+#    kompose.version: 1.17.0 (a74acad)
+#  creationTimestamp: null
+#  labels:
+#    io.kompose.service: cadvisor
+#  name: cadvisor
+#spec:
+#  ports:
+#  - name: "8080"
+#    port: 8080
+#    targetPort: 8080
+#  selector:
+#    io.kompose.service: cadvisor
+#status:
+#  loadBalancer: {}
+
 apiVersion: v1
 kind: Service
 metadata:
   namespace: prometheus
-  annotations:
-    kompose.cmd: kompose convert
-    kompose.version: 1.17.0 (a74acad)
-  creationTimestamp: null
-  labels:
-    io.kompose.service: cadvisor
-  name: cadvisor
+  name: cadvisor-service
 spec:
   ports:
-  - name: "8080"
-    port: 8080
+  - port: 8080
     targetPort: 8080
+    name: http
   selector:
-    io.kompose.service: cadvisor
-status:
-  loadBalancer: {}
+    app: cadvisor
+  type: NodePort
+
+
+
