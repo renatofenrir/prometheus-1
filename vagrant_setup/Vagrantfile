@@ -1,0 +1,31 @@
+
+$configureBox = <<-SCRIPT
+
+# install git 
+sudo su
+yum update -y && yum install git -y
+
+
+# clone monitoring repo
+git clone https://github.com/renatofenrir/prometheus-1.git
+
+
+# initialize docker swarm
+docker swarm init --advertise-addr 192.168.56.126
+
+
+# starting all containers (prometheus, grafana, cadvisor, alert-manager)
+cd prometheus-1
+HOSTNAME=$(hostname) docker stack deploy -c docker-stack.yml prom
+
+SCRIPT
+
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "renatofenrir/vagrant-docker-monitoring"
+  config.vm.box_version = "1.0"  
+  config.vm.network "private_network", ip: "192.168.56.126"
+  config.vm.provision :docker
+  config.vm.provision :docker_compose
+  config.vm.provision "shell", inline: $configureBox
+end
