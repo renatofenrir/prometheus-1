@@ -24,7 +24,7 @@ SCRIPT
 Vagrant.configure("2") do |config|
   config.vm.box = "renatofenrir/vagrant-docker-monitoring"
   config.vm.box_version = "1.0"  
-  config.vm.network "private_network", ip: "192.168.56.126"
+  config.vm.network "private_network", ip: "<IP-ADDR>" # I've been using 192.168.56.0/24 subnet for a while.. just a sugestion.. :-)
   config.vm.provision :docker
   config.vm.provision :docker_compose
   config.vm.provision "shell", inline: $configureBox
